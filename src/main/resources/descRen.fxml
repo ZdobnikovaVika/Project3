@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="zdobnikova.controllers.DescriptionController">
+   <children>
+      <Button fx:id="menuButton" layoutX="286.0" layoutY="426.0" mnemonicParsing="false" prefHeight="61.0" prefWidth="228.0" text="menu">
+         <font>
+            <Font size="29.0" />
+         </font></Button>
+      <TextArea layoutX="50.0" layoutY="151.0" prefHeight="230.0" prefWidth="700.0" text="Two players (Black and White), alternately, place stones of their color, one for each &#10;turn, at the intersections of an empty game board, which consists of 15 horizontal and&#10;15 vertical lines. The first move is always made by the Blacks.&#10;The winner is the one who built a row of 5 or more stones.">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </TextArea>
+   </children>
+</AnchorPane>
