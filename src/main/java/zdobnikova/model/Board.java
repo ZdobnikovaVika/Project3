@@ -8,7 +8,7 @@ public class Board {
     private int width;
     private int height;
 
-    private Map<Point, Stone> cells = new HashMap<>();
+    public Map<Point, Stone> cells = new HashMap<>();
 
 
     public int getHeight() {
@@ -40,6 +40,9 @@ public class Board {
         }
         return false;
     }
+
+
+
 
     public Stone get(Point point) {
         return cells.get(point);

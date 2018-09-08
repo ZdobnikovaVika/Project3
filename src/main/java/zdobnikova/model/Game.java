@@ -26,7 +26,7 @@ public class Game {
     }
 
     public void makeMove(Point point) {
-        if (board.put(point, currentPlayer)) {
+        if (board.put(point, currentPlayer) && (!foulMax())) {
             currentPlayer = currentPlayer.opposite();
             winner = findWinner();
         }
@@ -36,6 +36,51 @@ public class Game {
             new Point(0, 1), new Point(1, 0),
             new Point(1, 1), new Point(1, -1)
     };
+
+    public boolean foulMax() {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                Point point = new Point(x, y);
+                Stone firstStone = board.get(point);
+                if (firstStone != Stone.BLACK) continue;
+                for (Point dir : VECTOR_DIR) {
+                    Point current = point;
+                    int gamePoints = 1;
+                    for (; gamePoints < 6; gamePoints++) {
+                        current = current.sum(dir);
+                        if (board.get(current) != firstStone) break;
+                    }
+                    if (gamePoints == 6)
+                        return true;
+
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean foulFork() {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                Point point = new Point(x, y);
+                Stone firstStone = board.get(point);
+                if (firstStone != Stone.BLACK) continue;
+                for (Point dir : VECTOR_DIR) {
+                    Point current = point;
+                    int gamePoints = 1;
+                    int count = 0;
+                    for (; gamePoints < 4; gamePoints++) {
+                        count++;
+                        current = current.sum(dir);
+                        if (board.get(current) != firstStone) break;
+                    }
+                    if ((gamePoints == 4) && (count == 3)) return false;
+                    if ((gamePoints + count) == 7) return true;
+                }
+            }
+        }
+        return false;
+    }
 
     private Stone findWinner() {
         for (int x = 0; x < width; x++) {
