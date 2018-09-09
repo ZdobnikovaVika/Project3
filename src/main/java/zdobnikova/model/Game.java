@@ -68,7 +68,6 @@ public class Game {
     }
 
     public boolean foulFork(Point curPoint) {
-        // не работает
         board.put(curPoint, Stone.BLACK);
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -84,9 +83,8 @@ public class Game {
                         current = current.sum(dir);
                         if (board.get(current) != firstStone) break;
                     }
-                    count--;
                     System.out.println(count);
-                    if (count > 7) {
+                    if ((count==6)&&(count > 7)) {
                         board.remove(curPoint);
                         return true;
                     }
