@@ -17,6 +17,17 @@ class GameTest {
     }
 
     @Test
+    void makeFirstMoves() {
+        game.makeMove(new Point(7, 6));
+        game.makeMove(new Point(7, 5));
+        game.makeMove(new Point(7, 7));
+        assertEquals(game.getBoard().get(new Point(7, 6)), null);
+        assertEquals(game.getBoard().get(new Point(7, 5)), null);
+        assertEquals(game.getBoard().get(new Point(7, 7)), Stone.BLACK);
+        assertEquals(game.getCurrentPlayer(), Stone.WHITE);
+    }
+
+    @Test
     void makeFirstMove() {
         game.makeMove(new Point(7, 7));
         assertEquals(game.getBoard().get(new Point(7, 7)), Stone.BLACK);

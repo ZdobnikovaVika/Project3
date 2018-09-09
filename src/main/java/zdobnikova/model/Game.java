@@ -74,7 +74,7 @@ public class Game {
             new Point(0, -1), new Point(-1, -1),
             new Point(-1, 0), new Point(-1, 1)
     };
-    
+
     public boolean fork(Point foulPoint) {
         int forkCounter = 0;
         int horizontal = 1 + countStones(new Point(1, 0), foulPoint) + countStones(new Point(-1, 0), foulPoint);
