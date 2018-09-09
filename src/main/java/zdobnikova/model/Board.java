@@ -41,6 +41,14 @@ public class Board {
         return false;
     }
 
+    public boolean remove(Point point) {
+        if (inBoard(point) && !isEmpty(point)) {
+            cells.remove(point);
+            return true;
+        }
+        return false;
+    }
+
 
 
 

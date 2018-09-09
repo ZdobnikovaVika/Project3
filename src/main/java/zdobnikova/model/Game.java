@@ -25,11 +25,15 @@ public class Game {
         return board;
     }
 
-    public void makeMove(Point point) {
-        if (board.put(point, currentPlayer) && (!foulMax())) {
-            currentPlayer = currentPlayer.opposite();
-            winner = findWinner();
+    public boolean makeMove(Point point) {
+        if (board.get(new Point(7, 7)) == Stone.BLACK || point.equals(new Point(7, 7))) {
+            if (!foulMax(point) && !foulFork(point) && board.put(point, currentPlayer)) {
+                currentPlayer = currentPlayer.opposite();
+                winner = findWinner();
+                return true;
+            }
         }
+        return false;
     }
 
     static private final Point[] VECTOR_DIR = new Point[]{
@@ -37,7 +41,8 @@ public class Game {
             new Point(1, 1), new Point(1, -1)
     };
 
-    public boolean foulMax() {
+    public boolean foulMax(Point curPoint) {
+        board.put(curPoint, Stone.BLACK);
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 Point point = new Point(x, y);
@@ -50,35 +55,45 @@ public class Game {
                         current = current.sum(dir);
                         if (board.get(current) != firstStone) break;
                     }
-                    if (gamePoints == 6)
+                    if (gamePoints == 6) {
+                        board.remove(curPoint);
                         return true;
+                    }
 
                 }
             }
         }
+        board.remove(curPoint);
         return false;
     }
 
-    public boolean foulFork() {
+    public boolean foulFork(Point curPoint) {
+        // не работает
+        board.put(curPoint, Stone.BLACK);
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 Point point = new Point(x, y);
                 Stone firstStone = board.get(point);
                 if (firstStone != Stone.BLACK) continue;
+                int count = 0;
                 for (Point dir : VECTOR_DIR) {
                     Point current = point;
                     int gamePoints = 1;
-                    int count = 0;
                     for (; gamePoints < 4; gamePoints++) {
                         count++;
                         current = current.sum(dir);
                         if (board.get(current) != firstStone) break;
                     }
-                    if ((gamePoints == 4) && (count == 3)) return false;
-                    if ((gamePoints + count) == 7) return true;
+                    count--;
+                    System.out.println(count);
+                    if (count > 7) {
+                        board.remove(curPoint);
+                        return true;
+                    }
                 }
             }
         }
+        board.remove(curPoint);
         return false;
     }
 
