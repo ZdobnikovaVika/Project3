@@ -27,7 +27,7 @@ public class Game {
 
     public boolean makeMove(Point point) {
         if (board.get(new Point(7, 7)) == Stone.BLACK || point.equals(new Point(7, 7))) {
-            if (!foulMax(point) && !foulFork(point) && board.put(point, currentPlayer)) {
+            if (board.put(point, currentPlayer)) {
                 currentPlayer = currentPlayer.opposite();
                 winner = findWinner();
                 return true;
@@ -35,6 +35,7 @@ public class Game {
         }
         return false;
     }
+
 
     static private final Point[] VECTOR_DIR = new Point[]{
             new Point(0, 1), new Point(1, 0),
@@ -67,32 +68,43 @@ public class Game {
         return false;
     }
 
-    public boolean foulFork(Point curPoint) {
-        board.put(curPoint, Stone.BLACK);
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                Point point = new Point(x, y);
-                Stone firstStone = board.get(point);
-                if (firstStone != Stone.BLACK) continue;
-                int count = 0;
-                for (Point dir : VECTOR_DIR) {
-                    Point current = point;
-                    int gamePoints = 1;
-                    for (; gamePoints < 4; gamePoints++) {
-                        count++;
-                        current = current.sum(dir);
-                        if (board.get(current) != firstStone) break;
-                    }
-                    System.out.println(count);
-                    if ((count==6)&&(count > 7)) {
-                        board.remove(curPoint);
-                        return true;
-                    }
-                }
-            }
+    static private final Point[] FOUL_DIR = new Point[]{
+            new Point(0, 1), new Point(1, 1),
+            new Point(1, 0), new Point(1, -1),
+            new Point(0, -1), new Point(-1, -1),
+            new Point(-1, 0), new Point(-1, 1)
+    };
+    
+    public boolean fork(Point foulPoint) {
+        int forkCounter = 0;
+        int horizontal = 1 + countStones(new Point(1, 0), foulPoint) + countStones(new Point(-1, 0), foulPoint);
+        System.out.println(horizontal);
+        int vertical = 1 + countStones(new Point(0, 1), foulPoint) + countStones(new Point(0, -1), foulPoint);
+        System.out.println(vertical);
+        int firstDiag = 1 + countStones(new Point(1, 1), foulPoint) + countStones(new Point(-1, -1), foulPoint);
+        System.out.println(firstDiag);
+        int secDiag = 1 + countStones(new Point(1, -1), foulPoint) + countStones(new Point(-1, 1), foulPoint);
+        System.out.println(secDiag);
+        if (horizontal > 2) forkCounter += horizontal;
+        if (vertical > 2) forkCounter += vertical;
+        if (firstDiag > 2) forkCounter += firstDiag;
+        if (secDiag > 2) forkCounter += secDiag;
+        System.out.println(forkCounter);
+        if (forkCounter == 7) return false;
+        if (forkCounter < 6) return false;
+        return true;
+    }
+
+    private int countStones(Point dir, Point startPoint) {
+        int gamePoints = 0;
+        int emptyPoints = 0;
+        Point current = startPoint;
+        for (; gamePoints < WINNER_POINTS; gamePoints++) {
+            current = current.sum(dir);
+            if (board.get(current) == Stone.WHITE) break;
+            if (board.get(current) == null) emptyPoints++;
         }
-        board.remove(curPoint);
-        return false;
+        return gamePoints - emptyPoints;
     }
 
     private Stone findWinner() {

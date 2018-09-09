@@ -79,14 +79,47 @@ public class GameController {
     }
 
     private void makeMove(Point point) {
-        mainGrid.add(drawImage(), point.getX(), point.getY());
-        game.makeMove(point);
-        updateStatus();
-        findWinner();
+        if (game.getCurrentPlayer() == Stone.BLACK) {
+            if (game.fork(point)) foulForkAlert();
+            else if (game.foulMax(point)) foulMaxAlert();
+            else if (game.makeMove(point)) {
+                mainGrid.add(drawImage(), point.getX(), point.getY());
+                updateStatus();
+                findWinner();
+            }
+        } else if (game.makeMove(point)) {
+            mainGrid.add(drawImage(), point.getX(), point.getY());
+            updateStatus();
+            findWinner();
+        }
+
+    }
+
+    private void foulForkAlert() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText("You are playing black, you can't build fork like this!");
+        alert.setHeaderText("FOUL!");
+        alert.showAndWait();
+    }
+
+    private void foulMaxAlert() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText("You are playing black, you can't build long rows!");
+        alert.setHeaderText("FOUL!");
+        alert.showAndWait();
+    }
+
+
+    private Circle drawStone() {
+        Circle circle = new Circle(stoneRadius);
+        if (game.getCurrentPlayer() == Stone.BLACK) {
+            circle.setFill(Color.BLACK);
+        } else circle.setFill(Color.LIGHTBLUE);
+        return circle;
     }
 
     private ImageView drawImage() {
-        if (game.getCurrentPlayer() == Stone.BLACK) {
+        if (game.getCurrentPlayer() == Stone.WHITE) {
             return new ImageView(new Image("pics/black.png", stoneRadius * 2,
                     stoneRadius * 2, false, true));
         } else return new ImageView(new Image("pics/white.png", stoneRadius * 2,
