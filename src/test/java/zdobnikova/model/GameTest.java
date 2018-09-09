@@ -130,5 +130,35 @@ class GameTest {
         assertEquals(game.fork(new Point(7, 6)), false);
     }
 
+    @Test
+    void horizontalDiag1(){
+        game.makeMove(new Point(7, 7));
+        game.makeMove(new Point(1, 3));
+        game.makeMove(new Point(6, 7));
+        game.makeMove(new Point(1, 2));
+        game.makeMove(new Point(7, 6));
+        game.makeMove(new Point(1, 5));
+        game.makeMove(new Point(9, 8));
+        game.makeMove(new Point(2, 5));
+        assertEquals(game.fork(new Point(8, 7)), true);
+    }
+
+    @Test
+    void horizontalDiag2(){
+        game.makeMove(new Point(7, 7));
+        game.makeMove(new Point(1, 3));
+        game.makeMove(new Point(6, 7));
+        game.makeMove(new Point(1, 2));
+        game.makeMove(new Point(9, 7));
+        game.makeMove(new Point(1, 5));
+        game.makeMove(new Point(9, 6));
+        game.makeMove(new Point(2, 5));
+        game.makeMove(new Point(7, 8));
+        game.makeMove(new Point(3, 5));
+        game.makeMove(new Point(6, 9));
+        game.makeMove(new Point(2, 11));
+        assertEquals(game.fork(new Point(8, 7)), true);
+    }
+
 
 }

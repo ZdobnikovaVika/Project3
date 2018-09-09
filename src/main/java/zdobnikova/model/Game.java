@@ -1,8 +1,6 @@
 package zdobnikova.model;
 
-public class Game {
-
-    private Stone currentPlayer = Stone.BLACK;
+public class Game {private Stone currentPlayer = Stone.BLACK;
 
     private final int width = 15;
     private final int height = 15;
@@ -12,6 +10,7 @@ public class Game {
     private Board board = new Board(15, 15);
 
     static public final int WINNER_POINTS = 5;
+
 
     public int getWidth() {
         return width;
@@ -75,6 +74,7 @@ public class Game {
             new Point(-1, 0), new Point(-1, 1)
     };
 
+
     public boolean fork(Point foulPoint) {
         int forkCounter = 0;
         int horizontal = 1 + countStones(new Point(1, 0), foulPoint) + countStones(new Point(-1, 0), foulPoint);
@@ -134,4 +134,5 @@ public class Game {
     public Stone getCurrentPlayer() {
         return currentPlayer;
     }
+
 }
