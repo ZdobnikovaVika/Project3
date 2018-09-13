@@ -1,6 +1,7 @@
 package zdobnikova.model;
 
-public class Game {private Stone currentPlayer = Stone.BLACK;
+public class Game {
+    private Stone currentPlayer = Stone.BLACK;
 
     private final int width = 15;
     private final int height = 15;
@@ -68,31 +69,38 @@ public class Game {private Stone currentPlayer = Stone.BLACK;
     }
 
     static private final Point[] FOUL_DIR = new Point[]{
+            new Point(1, 0), new Point(-1, 0),
             new Point(0, 1), new Point(1, 1),
-            new Point(1, 0), new Point(1, -1),
             new Point(0, -1), new Point(-1, -1),
-            new Point(-1, 0), new Point(-1, 1)
+            new Point(1, -1), new Point(-1, 1)
     };
 
 
     public boolean fork(Point foulPoint) {
-        int forkCounter = 0;
-        int horizontal = 1 + countStones(new Point(1, 0), foulPoint) + countStones(new Point(-1, 0), foulPoint);
-        System.out.println(horizontal);
-        int vertical = 1 + countStones(new Point(0, 1), foulPoint) + countStones(new Point(0, -1), foulPoint);
-        System.out.println(vertical);
-        int firstDiag = 1 + countStones(new Point(1, 1), foulPoint) + countStones(new Point(-1, -1), foulPoint);
-        System.out.println(firstDiag);
-        int secDiag = 1 + countStones(new Point(1, -1), foulPoint) + countStones(new Point(-1, 1), foulPoint);
-        System.out.println(secDiag);
-        if (horizontal > 2) forkCounter += horizontal;
-        if (vertical > 2) forkCounter += vertical;
-        if (firstDiag > 2) forkCounter += firstDiag;
-        if (secDiag > 2) forkCounter += secDiag;
-        System.out.println(forkCounter);
-        if (forkCounter == 7) return false;
-        if (forkCounter < 6) return false;
-        return true;
+
+        for (Point dir : FOUL_DIR) {
+            Point search = foulPoint;
+            for (int i = 0; i < 4; i++) {
+                int forkCounter = 0;
+                int horizontal = 1 + countStones(new Point(1, 0), search) + countStones(new Point(-1, 0), search);
+                System.out.println(horizontal);
+                int vertical = 1 + countStones(new Point(0, 1), search) + countStones(new Point(0, -1), search);
+                System.out.println(vertical);
+                int firstDiag = 1 + countStones(new Point(1, 1), search) + countStones(new Point(-1, -1), search);
+                System.out.println(firstDiag);
+                int secDiag = 1 + countStones(new Point(1, -1), search) + countStones(new Point(-1, 1), search);
+                System.out.println(secDiag);
+                if (horizontal > 2) forkCounter += horizontal;
+                if (vertical > 2) forkCounter += vertical;
+                if (firstDiag > 2) forkCounter += firstDiag;
+                if (secDiag > 2) forkCounter += secDiag;
+                System.out.println(forkCounter);
+                if ((forkCounter > 6) && (forkCounter != 7)) return true;
+                search = search.sum(dir);
+            }
+        }
+        return false;
+
     }
 
     private int countStones(Point dir, Point startPoint) {
