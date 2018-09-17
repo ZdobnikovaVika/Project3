@@ -80,10 +80,9 @@ public class GameController {
 
     private void makeMove(Point point) {
         if (game.getCurrentPlayer() == Stone.BLACK) {
-            //if(game.makeMove())
             if (game.foulMax(point)) foulMaxAlert();
-             if (game.fork(point)) foulForkAlert();
-             if (game.makeMove(point)) {
+            if (game.fork(point)) foulForkAlert();
+            if (game.makeMove(point)) {
                 mainGrid.add(drawImage(), point.getX(), point.getY());
                 updateStatus();
                 findWinner();

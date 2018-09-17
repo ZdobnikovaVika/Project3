@@ -116,17 +116,17 @@ public class Game {
         int gamePoints = 0;
         int emptyPoints = 0;
         Point current = startPoint;
-        int k = 0;
+
         for (; gamePoints < WINNER_POINTS; gamePoints++) {
             current = current.sum(dir);
             if (current == new Point(7, 7)) {
-                k++;
+                ;
                 break;
             }
             if (board.get(current) == Stone.WHITE) break;
             if (board.get(current) == null) emptyPoints++;
         }
-        return gamePoints - emptyPoints + k;
+        return gamePoints - emptyPoints;
     }
 
     private Stone findWinner() {

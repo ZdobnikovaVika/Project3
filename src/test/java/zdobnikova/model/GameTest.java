@@ -91,18 +91,6 @@ class GameTest {
         assertEquals(game.foulMax(new Point(1, 6)), true);
     }
 
-    @Test
-    void forkThree() {
-        game.makeMove(new Point(7, 7));
-        game.makeMove(new Point(1, 3));
-        game.makeMove(new Point(7, 8));
-        game.makeMove(new Point(1, 2));
-        game.makeMove(new Point(6, 6));
-        game.makeMove(new Point(1, 5));
-        game.makeMove(new Point(5, 6));
-        game.makeMove(new Point(1, 10));
-        assertEquals(game.fork(new Point(7, 6)), true);
-    }
 
     @Test
     void forkThreeFour() {
@@ -171,7 +159,6 @@ class GameTest {
         game.makeMove(new Point(1, 5));
         game.makeMove(new Point(6, 7));
         game.makeMove(new Point(2, 11));
-        //game.makeMove(new Point(5, 7));
         assertEquals(game.fork(new Point(5, 7)), true);
     }
 
