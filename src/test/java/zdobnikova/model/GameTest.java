@@ -161,6 +161,18 @@ class GameTest {
         game.makeMove(new Point(2, 11));
         assertEquals(game.fork(new Point(5, 7)), true);
     }
+    @Test
+    void ho(){
+        game.makeMove(new Point(7, 7));
+        game.makeMove(new Point(1, 3));
+        game.makeMove(new Point(12, 7));
+        game.makeMove(new Point(1, 2));
+        game.makeMove(new Point(13, 7));
+        game.makeMove(new Point(1, 5));
+        game.makeMove(new Point(11, 6));
+        game.makeMove(new Point(2, 11));
+        assertEquals(game.fork(new Point(10, 5)), false);
+    }
 
 
 }

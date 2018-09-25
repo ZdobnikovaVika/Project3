@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import zdobnikova.model.Game;
 
+
 import java.io.IOException;
 
 public class RenjuApp extends Application {
@@ -14,7 +15,6 @@ public class RenjuApp extends Application {
     private static RenjuApp renjuApp;
 
     private Game game;
-
     private Stage stage;
 
     public static RenjuApp getRenjuApp() {
